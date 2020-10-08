@@ -1,9 +1,9 @@
 using UnityEngine;
 using System.Collections;
 
-public class ChaseStateTeamRedTeamRed : FSMStateTeamRed
+public class ChaseStateTeamRed : FSMStateTeamRed
 {
-    public ChaseStateTeamRedTeamRed(Transform[] wp) 
+    public ChaseStateTeamRed(Transform[] wp) 
     { 
         waypoints = wp;
         stateIdTeamRed = FSMStateIDTeamRed.Chasing;

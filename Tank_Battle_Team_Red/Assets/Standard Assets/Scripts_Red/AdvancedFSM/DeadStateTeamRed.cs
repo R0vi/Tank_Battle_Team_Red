@@ -1,9 +1,9 @@
 using UnityEngine;
 using System.Collections;
 
-public class DeadStateTeamRedTeamRed : FSMStateTeamRed
+public class DeadStateTeamRed : FSMStateTeamRed
 {
-    public DeadStateTeamRedTeamRed() 
+    public DeadStateTeamRed() 
     {
         stateIdTeamRed = FSMStateIDTeamRed.Dead;
     }
