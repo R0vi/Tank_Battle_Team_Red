@@ -27,6 +27,7 @@ public enum FSMStateIDTeamRed
     Attacking,
     Dead,
     Fleeing,
+    Evade,
 }
 
 public class AdvancedFSMTeamRed : FSMTeamRed 
