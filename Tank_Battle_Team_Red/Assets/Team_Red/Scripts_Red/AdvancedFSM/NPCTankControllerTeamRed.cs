@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class NPCTankControllerTeamRed : AdvancedFsmTeamRed
+public class NPCTankControllerTeamRed : AdvancedFSMTeamRed
 {
     public GameObject Bullet;
     private int health;

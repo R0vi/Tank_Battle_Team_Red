@@ -28,7 +28,7 @@ public enum FSMStateIDTeamRed
     Dead,
 }
 
-public class AdvancedFsmTeamRed : FSMTeamRed 
+public class AdvancedFSMTeamRed : FSMTeamRed 
 {
     private List<FSMStateTeamRed> fsmStates;
 
@@ -39,7 +39,7 @@ public class AdvancedFsmTeamRed : FSMTeamRed
     private FSMStateTeamRed currentStateTeamRed;
     public FSMStateTeamRed CurrentStateTeamRed { get { return currentStateTeamRed; } }
 
-    public AdvancedFsmTeamRed()
+    public AdvancedFSMTeamRed()
     {
         fsmStates = new List<FSMStateTeamRed>();
     }
