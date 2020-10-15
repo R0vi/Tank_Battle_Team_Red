@@ -17,11 +17,15 @@ public class PatrolStateTeamRed : FSMStateTeamRed
     {
         //Check the distance with player tank
         //When the distance is near, transition to chase state
-        //if (Vector3.Distance(npc.position, player.position) <= 300.0f)
-        //{
-        //    Debug.Log("Switch to Chase State");
-        //    npc.GetComponent<NPCTankControllerTeamRed>().SetTransition(Transition.SawPlayer);
-        //}
+        foreach (Transform enemyTank in enemyTanks)
+        {
+            if (Vector3.Distance(redTank.position, enemyTank.position) <= 300.0f)
+            {
+                Debug.Log("Switch to Chase State");
+                redTank.GetComponent<NPCTankControllerTeamRed>().SetTransition(Transition.SawPlayer);
+                break;
+            }
+        }
     }
 
     public override void ActTeamRed(Transform redTank, IList<Transform> platoonRedTanks, IList<Transform> enemyTanks)
