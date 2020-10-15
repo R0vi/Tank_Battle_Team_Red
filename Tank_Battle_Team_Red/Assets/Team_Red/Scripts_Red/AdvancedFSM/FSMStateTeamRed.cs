@@ -97,14 +97,14 @@ public abstract class FSMStateTeamRed
     /// Decides if the state should transition to another on its list
     /// NPC is a reference to the npc tha is controlled by this class
     /// </summary>
-    public abstract void ReasonTeamRed(Transform player, Transform npc);
+    public abstract void ReasonTeamRed(Transform redTank, IList<Transform> platoonRedTanks, IList<Transform> enemyTanks);
 
     /// <summary>
     /// This method controls the behavior of the NPC in the game World.
     /// Every action, movement or communication the NPC does should be placed here
     /// NPC is a reference to the npc tha is controlled by this class
     /// </summary>
-    public abstract void ActTeamRed(Transform player, Transform npc);
+    public abstract void ActTeamRed(Transform redTank, IList<Transform> platoonRedTanks, IList<Transform> enemyTanks);
 
     /// <summary>
     /// Find the next semi-random patrol point

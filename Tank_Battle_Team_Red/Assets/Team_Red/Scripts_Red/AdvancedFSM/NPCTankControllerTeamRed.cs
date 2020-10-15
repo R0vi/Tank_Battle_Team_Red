@@ -37,8 +37,9 @@ public class NPCTankControllerTeamRed : AdvancedFSMTeamRed
 
     protected override void FSMFixedUpdate()
     {
-        CurrentStateTeamRed.ReasonTeamRed(playerTransform, transform);
-        CurrentStateTeamRed.ActTeamRed(playerTransform, transform);
+        //Uitgecomment door Jasmijn om tijdelijk error weg te halen :p
+        //CurrentStateTeamRed.ReasonTeamRed(playerTransform, transform);//Transform redTank, IList<Transform> platoonRedTanks, IList<Transform> enemyTanks
+        //CurrentStateTeamRed.ActTeamRed(playerTransform, transform);
     }
 
     public void SetTransition(Transition t) 

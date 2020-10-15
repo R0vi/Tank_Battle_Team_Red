@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class DeadStateTeamRed : FSMStateTeamRed
 {
@@ -8,12 +9,12 @@ public class DeadStateTeamRed : FSMStateTeamRed
         stateIdTeamRed = FSMStateIDTeamRed.Dead;
     }
 
-    public override void ReasonTeamRed(Transform player, Transform npc)
+    public override void ReasonTeamRed(Transform redTank, IList<Transform> platoonRedTanks, IList<Transform> enemyTanks)
     {
 
     }
 
-    public override void ActTeamRed(Transform player, Transform npc)
+    public override void ActTeamRed(Transform redTank, IList<Transform> platoonRedTanks, IList<Transform> enemyTanks)
     {
         //Do Nothing for the dead state
     }
