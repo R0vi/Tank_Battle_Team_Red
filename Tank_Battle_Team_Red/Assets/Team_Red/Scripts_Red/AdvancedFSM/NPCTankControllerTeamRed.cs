@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class NPCTankControllerTeamRed : AdvancedFSMTeamRed
@@ -12,13 +14,6 @@ public class NPCTankControllerTeamRed : AdvancedFSMTeamRed
 
         elapsedTime = 0.0f;
         shootRate = 2.0f;
-
-        //Get the target enemy(Player)
-        GameObject objPlayer = GameObject.FindGameObjectWithTag("Player");
-        playerTransform = objPlayer.transform;
-
-        if (!playerTransform)
-            print("Player doesn't exist.. Please add one with Tag named 'Player'");
 
         //Get the turret of the tank
         turret = gameObject.transform.GetChild(0).transform;
@@ -37,9 +32,35 @@ public class NPCTankControllerTeamRed : AdvancedFSMTeamRed
 
     protected override void FSMFixedUpdate()
     {
-        //Uitgecomment door Jasmijn om tijdelijk error weg te halen :p
-        //CurrentStateTeamRed.ReasonTeamRed(playerTransform, transform);//Transform redTank, IList<Transform> platoonRedTanks, IList<Transform> enemyTanks
-        //CurrentStateTeamRed.ActTeamRed(playerTransform, transform);
+        var platoonRedTanks = GetPlatoonRedTanks();
+        var enemyTanks = GetEnemyTanks();
+        CurrentStateTeamRed.ReasonTeamRed(transform, platoonRedTanks, enemyTanks);
+        CurrentStateTeamRed.ActTeamRed(transform, platoonRedTanks, enemyTanks);
+    }
+
+    private IList<Transform> GetPlatoonRedTanks()
+    {
+        var platoonRedTanks = new List<Transform>();
+        foreach (var redTank in GameObject.FindGameObjectsWithTag("RedTank"))
+        {
+            platoonRedTanks.Add(redTank.GetComponent<Transform>());
+        }
+        return platoonRedTanks;
+    }
+
+    private IList<Transform> GetEnemyTanks()
+    {
+        var enemyTanks = new List<Transform>();
+        var enemyTags = new List<string>() { "PurpleTank", "PinkTank", "GreenTank", "BlackTank" };
+        foreach (var tag in enemyTags)
+        {
+            var enemies = GameObject.FindGameObjectsWithTag(tag);
+            foreach (var enemyTank in enemies)
+            {
+                enemyTanks.Add(enemyTank.GetComponent<Transform>());
+            }
+        }
+        return enemyTanks;
     }
 
     public void SetTransition(Transition t) 
