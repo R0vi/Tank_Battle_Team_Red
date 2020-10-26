@@ -95,6 +95,7 @@ public class NPCTankControllerTeamRed : AdvancedFSMTeamRed
         AddFSMStateTeamRed(chase);
         AddFSMStateTeamRed(attack);
         AddFSMStateTeamRed(dead);
+        AddFSMStateTeamRed(evade);
     }
 
     /// <summary>

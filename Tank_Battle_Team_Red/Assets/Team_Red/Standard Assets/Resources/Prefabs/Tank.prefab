@@ -97,7 +97,7 @@ GameObject:
   - component: {fileID: 761995581052561490}
   m_Layer: 0
   m_Name: Tank
-  m_TagString: Untagged
+  m_TagString: RedTank
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
