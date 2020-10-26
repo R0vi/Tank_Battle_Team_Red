@@ -35,16 +35,14 @@ public abstract class FSMStateTeamRed
 
     private static DataTeamRed GetDataTeamRed()
     {
-        string[] guids = UnityEditor.AssetDatabase.FindAssets("t:Data Team Red");
+        var guids = UnityEditor.AssetDatabase.FindAssets("t:Data Team Red");
         if (guids.Length == 0)
         {
             return ScriptableObject.CreateInstance<DataTeamRed>();
         }
-        else
-        {
-            var path = UnityEditor.AssetDatabase.GUIDToAssetPath(guids[0]);
-            return UnityEditor.AssetDatabase.LoadAssetAtPath<DataTeamRed>(path);
-        }
+
+        var path = UnityEditor.AssetDatabase.GUIDToAssetPath(guids[0]);
+        return UnityEditor.AssetDatabase.LoadAssetAtPath<DataTeamRed>(path);
     }
 
     public void AddTransitionTeamRed(Transition transition, FSMStateIDTeamRed idTeamRed)
