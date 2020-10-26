@@ -4,15 +4,11 @@ using System.Collections.Generic;
 
 public class AttackStateTeamRed : FSMStateTeamRed
 {
-    public AttackStateTeamRed(Transform[] wp) 
-    { 
-        waypoints = wp;
+    public AttackStateTeamRed() 
+    {
         stateIdTeamRed = FSMStateIDTeamRed.Attacking;
         curRotSpeed = 1.0f;
         curSpeed = 100.0f;
-
-        //find next Waypoint position
-        FindNextPointTeamRed();
     }
 
     public override void ReasonTeamRed(Transform redTank, IList<Transform> platoonRedTanks, IList<Transform> enemyTanks)
@@ -62,7 +58,7 @@ public class AttackStateTeamRed : FSMStateTeamRed
 
         destPos = cumulativeEnemyPosition / enemyTanks.Count;
 
-        var npcTankController = redTank.gameObject.GetComponent<NPCTankControllerTeamRed>()
+        var npcTankController = redTank.gameObject.GetComponent<NPCTankControllerTeamRed>();
         //turn turret towards closest enemy tank
         var turret = npcTankController.turret;
 

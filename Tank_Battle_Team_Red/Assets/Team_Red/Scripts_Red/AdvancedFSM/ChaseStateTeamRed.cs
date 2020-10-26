@@ -4,16 +4,12 @@ using System.Collections.Generic;
 
 public class ChaseStateTeamRed : FSMStateTeamRed
 {
-    public ChaseStateTeamRed(Transform[] wp) 
-    { 
-        waypoints = wp;
+    public ChaseStateTeamRed() 
+    {
         stateIdTeamRed = FSMStateIDTeamRed.Chasing;
 
         curRotSpeed = 1.0f;
         curSpeed = 100.0f;
-
-        //find next Waypoint position
-        FindNextPointTeamRed();
     }
 
     public override void ReasonTeamRed(Transform redTank, IList<Transform> platoonRedTanks, IList<Transform> enemyTanks)

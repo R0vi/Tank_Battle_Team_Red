@@ -22,7 +22,6 @@ public abstract class FSMStateTeamRed
     protected FSMStateIDTeamRed stateIdTeamRed;
     public FSMStateIDTeamRed IdTeamRed { get { return stateIdTeamRed; } }
     protected Vector3 destPos;
-    protected Transform[] waypoints;
     protected float curRotSpeed;
     protected float curSpeed;
 
@@ -105,17 +104,6 @@ public abstract class FSMStateTeamRed
     /// NPC is a reference to the npc tha is controlled by this class
     /// </summary>
     public abstract void ActTeamRed(Transform redTank, IList<Transform> platoonRedTanks, IList<Transform> enemyTanks);
-
-    /// <summary>
-    /// Find the next semi-random patrol point
-    /// </summary>
-    public void FindNextPointTeamRed()
-    {
-        //Debug.Log("Finding next point");
-        int rndIndex = Random.Range(0, waypoints.Length);
-        Vector3 rndPosition = Vector3.zero;
-        destPos = waypoints[rndIndex].position + rndPosition;
-    }
 
     /// <summary>
     /// Check whether the next random position is the same as current tank position
