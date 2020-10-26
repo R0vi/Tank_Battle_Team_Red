@@ -7,6 +7,9 @@ TagManager:
   - TeamRed
   - RedTank
   - BlackTank
+  - Bullet
+  - PurpleTank
+  - PinkTank
   layers:
   - Default
   - TransparentFX
