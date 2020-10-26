@@ -97,7 +97,7 @@ GameObject:
   - component: {fileID: 761995581052561490}
   m_Layer: 0
   m_Name: Tank
-  m_TagString: Untagged
+  m_TagString: RedTank
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -207,6 +207,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Bullet: {fileID: 100000, guid: 2e10824fe4e44c64195960064fa785a8, type: 3}
+  HasShotInAttackState: 0
 --- !u!114 &761995581052561490
 MonoBehaviour:
   m_ObjectHideFlags: 0
