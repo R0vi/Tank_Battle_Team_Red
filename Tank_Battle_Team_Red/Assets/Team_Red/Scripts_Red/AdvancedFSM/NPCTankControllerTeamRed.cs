@@ -139,4 +139,9 @@ public class NPCTankControllerTeamRed : AdvancedFSMTeamRed
             elapsedTime = 0.0f;
         }
     }
+
+    public int GetHealth()
+    {
+        return health;
+    }
 }
