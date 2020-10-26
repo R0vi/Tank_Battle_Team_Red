@@ -70,32 +70,21 @@ public class NPCTankControllerTeamRed : AdvancedFSMTeamRed
 
     private void ConstructFSM()
     {
-        //Get the list of points
-        pointList = GameObject.FindGameObjectsWithTag("WandarPoint");
-
-        Transform[] waypoints = new Transform[pointList.Length];
-        int i = 0;
-        foreach(GameObject obj in pointList)
-        {
-            waypoints[i] = obj.transform;
-            i++;
-        }
-
-        PatrolStateTeamRed patrol = new PatrolStateTeamRed(waypoints);
+        var patrol = new PatrolStateTeamRed();
         patrol.AddTransitionTeamRed(Transition.SawPlayer, FSMStateIDTeamRed.Chasing);
         patrol.AddTransitionTeamRed(Transition.NoHealth, FSMStateIDTeamRed.Dead);
 
-        ChaseStateTeamRed chase = new ChaseStateTeamRed(waypoints);
+        var chase = new ChaseStateTeamRed();
         chase.AddTransitionTeamRed(Transition.LostPlayer, FSMStateIDTeamRed.Patrolling);
         chase.AddTransitionTeamRed(Transition.ReachPlayer, FSMStateIDTeamRed.Attacking);
         chase.AddTransitionTeamRed(Transition.NoHealth, FSMStateIDTeamRed.Dead);
 
-        AttackStateTeamRed attack = new AttackStateTeamRed(waypoints);
+        var attack = new AttackStateTeamRed();
         attack.AddTransitionTeamRed(Transition.LostPlayer, FSMStateIDTeamRed.Patrolling);
         attack.AddTransitionTeamRed(Transition.SawPlayer, FSMStateIDTeamRed.Chasing);
         attack.AddTransitionTeamRed(Transition.NoHealth, FSMStateIDTeamRed.Dead);
 
-        DeadStateTeamRed dead = new DeadStateTeamRed();
+        var dead = new DeadStateTeamRed();
         dead.AddTransitionTeamRed(Transition.NoHealth, FSMStateIDTeamRed.Dead);
 
         AddFSMStateTeamRed(patrol);
