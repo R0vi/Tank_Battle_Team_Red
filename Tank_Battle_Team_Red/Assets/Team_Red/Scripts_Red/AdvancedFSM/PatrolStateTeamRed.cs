@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class PatrolStateTeamRed : FSMStateTeamRed
 {
-    public PatrolStateTeamRed() 
+    public PatrolStateTeamRed() : base()
     {
         stateIdTeamRed = FSMStateIDTeamRed.Patrolling;
 
@@ -36,66 +36,81 @@ public class PatrolStateTeamRed : FSMStateTeamRed
 
     public override void ActTeamRed(Transform redTank, IList<Transform> platoonRedTanks, IList<Transform> enemyTanks)
     {
-        ////Find another random patrol point if the current point is reached
-		
-        //if (Vector3.Distance(npc.position, destPos) <= 100.0f)
-        //{
-        //    Debug.Log("Reached to the destination point\ncalculating the next point");
-        //    FindNextPointTeamRed();
-        //}
+        destPos = Combine(redTank, platoonRedTanks);
 
-        ////Rotate to the target point
-        //Quaternion targetRotation = Quaternion.LookRotation(destPos - npc.position);
-        //npc.rotation = Quaternion.Slerp(npc.rotation, targetRotation, Time.deltaTime * curRotSpeed);
+        //Rotate to the target point
+        Quaternion targetRotation = Quaternion.LookRotation(destPos - redTank.position);
+        redTank.rotation = Quaternion.Slerp(redTank.rotation, targetRotation, Time.deltaTime * curRotSpeed);
 
-        ////Go Forward
-        //npc.Translate(Vector3.forward * Time.deltaTime * curSpeed);
+        //Go Forward
+        redTank.Translate(Vector3.forward * Time.deltaTime * curSpeed);
     }
 
-    Vector3 Cohesion(Transform curTank, List<Transform> platoonTanks)
+    Vector3 Cohesion(Transform curTank, IList<Transform> platoonTanks)
     {
-        Vector3 steerVector = new Vector3();
+        Vector3 destPoint = new Vector3();
 
         if (platoonTanks.Count == 0)
-            return steerVector;
-
+            return destPoint;
+        int tankCount = 0;
         foreach (Transform tank in platoonTanks)
-            steerVector += tank.position;
+        {
+            if (Vector3.Distance(tank.position, curTank.position) <= dataTeamRed.radiusCohesion)
+            {
+                destPoint += tank.position;
+                tankCount++;
+            }
+        }
 
-        steerVector /= platoonTanks.Count;
-        steerVector -= curTank.position;
+        destPoint /= tankCount;
+        destPoint -= curTank.position;
 
-        return steerVector.normalized;
+        return destPoint.normalized;
     }
 
-    Vector3 Separation(Transform curTank, List<Transform> platoonTanks)
+    Vector3 Separation(Transform curTank, IList<Transform> platoonTanks)
     {
-        Vector3 steerVector = new Vector3();
+        Vector3 destPoint = new Vector3();
 
         if (platoonTanks.Count == 0)
-            return steerVector;
+            return destPoint;
 
         foreach (Transform tank in platoonTanks)
         {
-            Vector3 inverseAgentDirection = curTank.position - tank.position;
+            if (Vector3.Distance(tank.position, curTank.position) <= dataTeamRed.radiusSeparation)
+            {
+                Vector3 inverseAgentDirection = curTank.position - tank.position;
 
-            if (inverseAgentDirection.magnitude != 0)
-                steerVector += inverseAgentDirection.normalized / inverseAgentDirection.magnitude;
+                if (inverseAgentDirection.magnitude != 0)
+                    destPoint += inverseAgentDirection.normalized / inverseAgentDirection.magnitude;
+            }
         }
 
-        return steerVector.normalized;
+        return destPoint.normalized;
     }
 
-    Vector3 Alignment(Transform curTank, List<Transform> platoonTanks)
+    Vector3 Alignment(Transform curTank, IList<Transform> platoonTanks)
     {
-        Vector3 steerVector = new Vector3();
+        Vector3 destPoint = new Vector3();
 
         if (platoonTanks.Count == 0)
-            return steerVector;
+            return destPoint;
 
-        //foreach (Transform tank in platoonTanks)
-        //    steerVector += tank.velocity;
+        foreach (Transform tank in platoonTanks)
+        {
+            if (Vector3.Distance(tank.position, curTank.position) <= dataTeamRed.radiusAlignment)
+            {
+                destPoint += tank.forward;
+            }
+        }
 
-        return steerVector.normalized;
+        return destPoint.normalized;
+    }
+
+    Vector3 Combine(Transform curTank, IList<Transform> platoonTanks)
+    {
+        return dataTeamRed.weightCohesion * Cohesion(curTank, platoonTanks) + 
+            dataTeamRed.weightSeparation * Separation(curTank, platoonTanks) + 
+            dataTeamRed.weightAlignment * Alignment(curTank, platoonTanks);
     }
 }

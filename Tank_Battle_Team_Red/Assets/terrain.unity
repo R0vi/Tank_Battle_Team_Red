@@ -591,6 +591,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Tank
       objectReference: {fileID: 0}
+    - target: {fileID: 100002, guid: 1a90e35cb9bb1e24887d766fffec2147, type: 3}
+      propertyPath: m_TagString
+      value: RedTank
+      objectReference: {fileID: 0}
     - target: {fileID: 400002, guid: 1a90e35cb9bb1e24887d766fffec2147, type: 3}
       propertyPath: m_LocalPosition.x
       value: 2313.5254
@@ -723,6 +727,10 @@ PrefabInstance:
     - target: {fileID: 100002, guid: 1a90e35cb9bb1e24887d766fffec2147, type: 3}
       propertyPath: m_Name
       value: Tank (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 100002, guid: 1a90e35cb9bb1e24887d766fffec2147, type: 3}
+      propertyPath: m_TagString
+      value: RedTank
       objectReference: {fileID: 0}
     - target: {fileID: 400002, guid: 1a90e35cb9bb1e24887d766fffec2147, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1359,6 +1367,10 @@ PrefabInstance:
     - target: {fileID: 100002, guid: 1a90e35cb9bb1e24887d766fffec2147, type: 3}
       propertyPath: m_Name
       value: Tank (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 100002, guid: 1a90e35cb9bb1e24887d766fffec2147, type: 3}
+      propertyPath: m_TagString
+      value: RedTank
       objectReference: {fileID: 0}
     - target: {fileID: 400002, guid: 1a90e35cb9bb1e24887d766fffec2147, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2155,6 +2167,10 @@ PrefabInstance:
     - target: {fileID: 100002, guid: 1a90e35cb9bb1e24887d766fffec2147, type: 3}
       propertyPath: m_Name
       value: Tank (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 100002, guid: 1a90e35cb9bb1e24887d766fffec2147, type: 3}
+      propertyPath: m_TagString
+      value: RedTank
       objectReference: {fileID: 0}
     - target: {fileID: 400002, guid: 1a90e35cb9bb1e24887d766fffec2147, type: 3}
       propertyPath: m_LocalPosition.x

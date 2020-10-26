@@ -14,4 +14,11 @@ public class DataTeamRed : ScriptableObject
     public int ShootTimesDuringStrafing = 2;
 
     public bool Strafing = false;
+
+    public float radiusCohesion = 20;
+    public float radiusSeparation = 6;
+    public float radiusAlignment = 10;
+    public float weightCohesion = 60;
+    public float weightSeparation = 90;
+    public float weightAlignment = 90;
 }
