@@ -41,15 +41,35 @@ public class AttackStateTeamRed : FSMStateTeamRed
 
     public override void ActTeamRed(Transform redTank, IList<Transform> platoonRedTanks, IList<Transform> enemyTanks)
     {
-        ////Set the target position as the player position
-        //destPos = player.position;
+        Transform closestTank = null;
+        float closestTankDistance = float.MaxValue;
 
-        ////Always Turn the turret towards the player
-        //Transform turret = npc.GetComponent<NPCTankControllerTeamRed>().turret;
-        //Quaternion turretRotation = Quaternion.LookRotation(destPos - turret.position);
-        //turret.rotation = Quaternion.Slerp(turret.rotation, turretRotation, Time.deltaTime * curRotSpeed);
+        var cumulativeEnemyPosition = Vector3.zero;
 
-        ////Shoot bullet towards the player
-        //npc.GetComponent<NPCTankControllerTeamRed>().ShootBullet();
+        foreach (var enemyTank in enemyTanks)
+        {
+            var distanceToEnemyTank = Vector3.Distance(redTank.position, enemyTank.position);
+            
+            if (distanceToEnemyTank < closestTankDistance)
+            {
+                closestTank = enemyTank;
+
+                closestTankDistance = distanceToEnemyTank;
+            }
+
+            cumulativeEnemyPosition += enemyTank.position;
+        }
+
+        destPos = cumulativeEnemyPosition / enemyTanks.Count;
+
+        var npcTankController = redTank.gameObject.GetComponent<NPCTankControllerTeamRed>()
+        //turn turret towards closest enemy tank
+        var turret = npcTankController.turret;
+
+       /*Transform turret = npc.GetComponent<NPCTankControllerTeamRed>().turret;*/
+        var turretRotation = Quaternion.LookRotation(destPos - turret.position);
+        turret.rotation = Quaternion.Slerp(turret.rotation, turretRotation, Time.deltaTime * curRotSpeed);
+
+        npcTankController.ShootBullet();
     }
 }
