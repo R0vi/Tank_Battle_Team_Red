@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class NPCTankControllerTeamRed : AdvancedFSMTeamRed
@@ -34,7 +35,7 @@ public class NPCTankControllerTeamRed : AdvancedFSMTeamRed
     protected override void FSMFixedUpdate()
     {
         var platoonRedTanks = GetPlatoonRedTanks();
-        var enemyTanks = GetEnemyTanks();
+        var enemyTanks = GetEnemyTanks(platoonRedTanks);
         CurrentStateTeamRed.ReasonTeamRed(transform, platoonRedTanks, enemyTanks);
         CurrentStateTeamRed.ActTeamRed(transform, platoonRedTanks, enemyTanks);
     }
@@ -49,8 +50,17 @@ public class NPCTankControllerTeamRed : AdvancedFSMTeamRed
         return platoonRedTanks;
     }
 
-    private IList<Transform> GetEnemyTanks()
+    private IList<Transform> GetEnemyTanks(IList<Transform> platoonRedTanks)
     {
+        var position = Vector3.zero;
+
+        foreach (var platoonRedTank in platoonRedTanks)
+        {
+            position += platoonRedTank.position;
+        }
+
+        var averagePosition = position / platoonRedTanks.Count;
+
         var enemyTanks = new List<Transform>();
         var enemyTags = new List<string>() { "PurpleTank", "PinkTank", "GreenTank", "BlackTank" };
         foreach (var tag in enemyTags)
@@ -58,9 +68,15 @@ public class NPCTankControllerTeamRed : AdvancedFSMTeamRed
             var enemies = GameObject.FindGameObjectsWithTag(tag);
             foreach (var enemyTank in enemies)
             {
-                enemyTanks.Add(enemyTank.GetComponent<Transform>());
+                var enemyTransform = enemyTank.GetComponent<Transform>();
+
+                if (Vector3.Distance(averagePosition, enemyTransform.position) < DataTeamRed.SpottingRange)
+                {
+                    enemyTanks.Add(enemyTransform);
+                }
             }
         }
+
         return enemyTanks;
     }
 

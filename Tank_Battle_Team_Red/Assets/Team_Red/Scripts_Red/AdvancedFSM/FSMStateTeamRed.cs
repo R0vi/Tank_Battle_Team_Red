@@ -33,7 +33,7 @@ public abstract class FSMStateTeamRed
         Debug.Log(dataTeamRed);
     }
 
-    private static DataTeamRed GetDataTeamRed()
+    public static DataTeamRed GetDataTeamRed()
     {
         var guids = UnityEditor.AssetDatabase.FindAssets("t:Data Team Red");
         if (guids.Length == 0)
