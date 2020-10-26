@@ -1,5 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using UnityEditor;
 using UnityEngine;
 
 public class FleeStateTeamRed : FSMStateTeamRed
@@ -11,14 +13,20 @@ public class FleeStateTeamRed : FSMStateTeamRed
 
     public override void ActTeamRed(Transform redTank, IList<Transform> platoonRedTanks, IList<Transform> enemyTanks)
     {
-        throw new System.NotImplementedException();
-        //Moet een positie vinden die de andere kant op is dan waar de vijand is
-        //Richting die positie rijden
+        var firstEnemyPosition = enemyTanks.First().position;
+        redTank.LookAt(firstEnemyPosition);
+        Quaternion.Slerp(redTank.rotation, Quaternion.Euler(0, 180, 0), 1 * Time.deltaTime);
+        redTank.Translate(Vector3.forward * Time.deltaTime * curSpeed);
     }
 
     public override void ReasonTeamRed(Transform redTank, IList<Transform> platoonRedTanks, IList<Transform> enemyTanks)
     {
-        throw new System.NotImplementedException();
-        //Als de afstand tussen het vijand platoon en de eigen tank platoon ver genoeg is, terug naar patrol state
+        var nearestEnemyTank = enemyTanks.Min(enemyTank => Vector3.Distance(enemyTank.position, redTank.position));
+        var patrolDistance = 300f;
+        if(nearestEnemyTank > patrolDistance)
+        {
+            Debug.Log("Switch to Patrol State");
+            redTank.GetComponent<NPCTankControllerTeamRed>().SetTransition(Transition.LostPlayer);
+        }
     }
 }
