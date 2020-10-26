@@ -7,9 +7,8 @@ public class EvadeStateTeamRed : FSMStateTeamRed
     private bool evadeRight;
     private Quaternion evadeRotation;
     private bool isDone;
-    public EvadeStateTeamRed(Transform[] wp)
+    public EvadeStateTeamRed()
     {
-        waypoints = wp;
         stateIdTeamRed = FSMStateIDTeamRed.Evade;
 
         curRotSpeed = 1.0f;
@@ -17,9 +16,6 @@ public class EvadeStateTeamRed : FSMStateTeamRed
 
         evadeRight = true;
         isDone = false;
-
-        //find next Waypoint position
-        FindNextPointTeamRed();
     }
 
     public override void ReasonTeamRed(Transform redTank, IList<Transform> platoonRedTanks, IList<Transform> enemyTanks)

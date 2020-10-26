@@ -4,9 +4,8 @@ using System.Collections.Generic;
 
 public class PatrolStateTeamRed : FSMStateTeamRed
 {
-    public PatrolStateTeamRed(Transform[] wp) 
-    { 
-        waypoints = wp;
+    public PatrolStateTeamRed() 
+    {
         stateIdTeamRed = FSMStateIDTeamRed.Patrolling;
 
         curRotSpeed = 1.0f;
