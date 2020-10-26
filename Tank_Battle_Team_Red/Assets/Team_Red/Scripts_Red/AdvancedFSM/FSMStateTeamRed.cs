@@ -25,6 +25,12 @@ public abstract class FSMStateTeamRed
     protected Transform[] waypoints;
     protected float curRotSpeed;
     protected float curSpeed;
+    protected DataTeamRed dataTeamRed;
+
+    protected FSMStateTeamRed()
+    {
+        dataTeamRed = Object.FindObjectOfType<DataTeamRed>();
+    }
 
     public void AddTransitionTeamRed(Transition transition, FSMStateIDTeamRed idTeamRed)
     {
