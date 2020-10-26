@@ -17,6 +17,7 @@ public enum Transition
     ReachPlayer,
     LostPlayer,
     NoHealth,
+    EnemyTooClose,
 }
 
 public enum FSMStateIDTeamRed

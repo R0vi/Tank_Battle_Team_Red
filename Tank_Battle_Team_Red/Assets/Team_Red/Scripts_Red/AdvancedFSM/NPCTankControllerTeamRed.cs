@@ -84,6 +84,7 @@ public class NPCTankControllerTeamRed : AdvancedFSMTeamRed
         PatrolStateTeamRed patrol = new PatrolStateTeamRed(waypoints);
         patrol.AddTransitionTeamRed(Transition.SawPlayer, FSMStateIDTeamRed.Chasing);
         patrol.AddTransitionTeamRed(Transition.NoHealth, FSMStateIDTeamRed.Dead);
+        patrol.AddTransitionTeamRed(Transition.EnemyTooClose, FSMStateIDTeamRed.Evade);
 
         ChaseStateTeamRed chase = new ChaseStateTeamRed(waypoints);
         chase.AddTransitionTeamRed(Transition.LostPlayer, FSMStateIDTeamRed.Patrolling);
@@ -97,6 +98,9 @@ public class NPCTankControllerTeamRed : AdvancedFSMTeamRed
 
         DeadStateTeamRed dead = new DeadStateTeamRed();
         dead.AddTransitionTeamRed(Transition.NoHealth, FSMStateIDTeamRed.Dead);
+
+        EvadeStateTeamRed evade = new EvadeStateTeamRed(waypoints);
+        evade.AddTransitionTeamRed(Transition.LostPlayer, FSMStateIDTeamRed.Patrolling);
 
         AddFSMStateTeamRed(patrol);
         AddFSMStateTeamRed(chase);
