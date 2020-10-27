@@ -19,15 +19,15 @@ public class PatrolStateTeamRed : FSMStateTeamRed
         Debug.Log("In patrol");
         //Check the distance with player tank
         //When the distance is near, transition to chase state
-        foreach (Transform enemyTank in enemyTanks)
+        foreach (var enemyTank in enemyTanks)
         {
-            if(Vector3.Distance(redTank.position, enemyTank.position) <= 50.0f)
+            if (Vector3.Distance(redTank.position, enemyTank.position) <= dataTeamRed.EvadingRange)
             {
                 Debug.Log("Switch to Evade State");
                 redTank.GetComponent<NPCTankControllerTeamRed>().SetTransition(Transition.EnemyTooClose);
                 break;
             }
-            if (Vector3.Distance(redTank.position, enemyTank.position) <= 300.0f)
+            if (Vector3.Distance(redTank.position, enemyTank.position) <= DataTeamRed.SpottingRange)
             {
                 Debug.Log("Switch to Chase State");
                 redTank.GetComponent<NPCTankControllerTeamRed>().SetTransition(Transition.SawPlayer);
@@ -61,6 +61,8 @@ public class PatrolStateTeamRed : FSMStateTeamRed
         if (platoonTanks.Count == 0)
             return destPoint;
 
+        var tankCounter = 0;
+
         foreach (Transform tank in platoonTanks)
         {
             if (tank == curTank)
@@ -68,21 +70,19 @@ public class PatrolStateTeamRed : FSMStateTeamRed
                 continue;
             }
 
+            tankCounter++;
+
             if (Vector3.Distance(tank.position, curTank.position) <= dataTeamRed.radiusCohesion)
             {
                 destPoint += tank.position;
             }
         }
 
-        destPoint /= platoonTanks.Count;
+        destPoint /= tankCounter;
 
-       var directionVector = (destPoint - curTank.position).normalized;
-
-        Debug.Log($"cohesionDirection {directionVector}");
+        var directionVector = (destPoint - curTank.position).normalized;
 
         return directionVector;
-
-        return destPoint;
     }
 
     Vector3 Separation(Transform curTank, IList<Transform> platoonTanks)
@@ -108,8 +108,6 @@ public class PatrolStateTeamRed : FSMStateTeamRed
             }
         }
 
-        Debug.Log($"seperationDirection {destPoint.normalized}");
-
         return destPoint.normalized;
     }
 
@@ -122,23 +120,24 @@ public class PatrolStateTeamRed : FSMStateTeamRed
 
         foreach (Transform tank in platoonTanks)
         {
-            if(curTank == tank)
-
-            if (Vector3.Distance(tank.position, curTank.position) <= dataTeamRed.radiusAlignment)
+            if (curTank == tank)
             {
-                destPoint += tank.forward;
+                continue;
             }
-        }
 
-        Debug.Log($"alignmentDirection {destPoint.normalized}");
+                if (Vector3.Distance(tank.position, curTank.position) <= dataTeamRed.radiusAlignment)
+                {
+                    destPoint += tank.forward;
+                }
+        }
 
         return destPoint.normalized;
     }
 
     Vector3 Combine(Transform curTank, IList<Transform> platoonTanks)
     {
-        return dataTeamRed.weightCohesion * Cohesion(curTank, platoonTanks) + 
-               dataTeamRed.weightSeparation * Separation(curTank, platoonTanks) + 
+        return dataTeamRed.weightCohesion * Cohesion(curTank, platoonTanks) +
+               dataTeamRed.weightSeparation * Separation(curTank, platoonTanks) +
                dataTeamRed.weightAlignment * Alignment(curTank, platoonTanks);
     }
 }

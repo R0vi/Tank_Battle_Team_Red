@@ -19,39 +19,11 @@ public class StrafeStateTeamRed : FSMStateTeamRed
             redTank.GetComponent<NPCTankControllerTeamRed>().SetTransition(Transition.ReachPlayer);
         }
     }
-	/*
-    public override void ReasonTeamRed(Transform redTank, IList<Transform> platoonRedTanks, IList<Transform> enemyTanks)
-    {
-        if (platoonRedTanks.All(x => x.gameObject.GetComponent<NPCTankControllerTeamRed>().HasFinishedStrafe))
-        {
-            redTank.GetComponent<NPCTankControllerTeamRed>().SetTransition(Transition.GoToAttack);
-        }
-        ////Check the distance with the player tank
-        //float dist = Vector3.Distance(npc.position, player.position);
-        //if (dist >= 200.0f && dist < 300.0f)
-        //{
-        //    //Rotate to the target point
-        //    Quaternion targetRotation = Quaternion.LookRotation(destPos - npc.position);
-        //    npc.rotation = Quaternion.Slerp(npc.rotation, targetRotation, Time.deltaTime * curRotSpeed);
-
-        //    //Go Forward
-        //    npc.Translate(Vector3.forward * Time.deltaTime * curSpeed);
-
-        //    Debug.Log("Switch to Chase State");
-        //    npc.GetComponent<NPCTankControllerTeamRed>().SetTransition(Transition.SawPlayer);
-        //}
-        ////Transition to patrol is the tank become too far
-        //else if (dist >= 300.0f)
-        //{
-        //    Debug.Log("Switch to Patrol State");
-        //    npc.GetComponent<NPCTankControllerTeamRed>().SetTransition(Transition.LostPlayer);
-        //}  
-    }
-*/
+	
     public override void ActTeamRed(Transform redTank, IList<Transform> platoonRedTanks, IList<Transform> enemyTanks)
     {
-        Transform closestTank = null;
-        float closestTankDistance = float.MaxValue;
+        var closestTank = redTank;
+        var closestTankDistance = float.MaxValue;
 
         var cumulativeEnemyPosition = Vector3.zero;
 

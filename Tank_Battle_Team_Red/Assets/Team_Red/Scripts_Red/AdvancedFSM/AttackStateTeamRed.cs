@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine.AI;
 
 public class AttackStateTeamRed : FSMStateTeamRed
 {
@@ -22,7 +23,7 @@ public class AttackStateTeamRed : FSMStateTeamRed
         {
             npcTankController.SetTransition(Transition.GoToStrafe);
         }
-        
+
         if (time == 0)
         {
             time = Time.time;
@@ -41,15 +42,15 @@ public class AttackStateTeamRed : FSMStateTeamRed
 
     public override void ActTeamRed(Transform redTank, IList<Transform> platoonRedTanks, IList<Transform> enemyTanks)
     {
-        Transform closestTank = null;
-        float closestTankDistance = float.MaxValue;
+        var closestTank = redTank;
+        var closestTankDistance = float.MaxValue;
 
         var cumulativeEnemyPosition = Vector3.zero;
 
         foreach (var enemyTank in enemyTanks)
         {
             var distanceToEnemyTank = Vector3.Distance(redTank.position, enemyTank.position);
-            
+
             if (distanceToEnemyTank < closestTankDistance)
             {
                 closestTank = enemyTank;
@@ -62,8 +63,10 @@ public class AttackStateTeamRed : FSMStateTeamRed
 
         destPos = cumulativeEnemyPosition / enemyTanks.Count;
 
+        redTank.gameObject.GetComponent<NavMeshAgent>().SetDestination(destPos);
+
         var npcTankController = redTank.gameObject.GetComponent<NPCTankControllerTeamRed>();
-        
+
         //turn turret towards closest enemy tank
         var turret = npcTankController.turret;
 
@@ -74,6 +77,6 @@ public class AttackStateTeamRed : FSMStateTeamRed
         {
             npcTankController.ShootBullet();
             npcTankController.HasShotInAttackState = true;
-        } 
+        }
     }
 }

@@ -63,7 +63,7 @@ public class ChaseStateTeamRed : FSMStateTeamRed
         //    npc.GetComponent<NPCTankControllerTeamRed>().SetTransition(Transition.LostPlayer);
         //}
     }
-
+    
     public override void ActTeamRed(Transform redTank, IList<Transform> platoonRedTanks, IList<Transform> enemyTanks)
     {
         

@@ -2,6 +2,8 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditor;
+using System.Threading;
 
 /// <summary>
 /// This class is adapted and modified from the FSM implementation class available on UnifyCommunity website
@@ -29,9 +31,16 @@ public abstract class FSMStateTeamRed
 
     protected FSMStateTeamRed()
     {
-        dataTeamRed = Resources.FindObjectsOfTypeAll<DataTeamRed>().First();
+        dataTeamRed = GetDataTeamRed();
+    }
 
-        Debug.Log(dataTeamRed);
+    private DataTeamRed GetDataTeamRed()
+    {
+        var guid = AssetDatabase.FindAssets($"t:{typeof(DataTeamRed).Name}").First();
+
+        var path = AssetDatabase.GUIDToAssetPath(guid);
+
+        return AssetDatabase.LoadAssetAtPath<DataTeamRed>(path);
     }
 
     public void AddTransitionTeamRed(Transition transition, FSMStateIDTeamRed idTeamRed)
