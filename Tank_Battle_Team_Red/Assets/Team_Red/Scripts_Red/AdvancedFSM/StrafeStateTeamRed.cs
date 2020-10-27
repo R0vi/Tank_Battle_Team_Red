@@ -22,6 +22,7 @@ public class StrafeStateTeamRed : FSMStateTeamRed
 	
     public override void ActTeamRed(Transform redTank, IList<Transform> platoonRedTanks, IList<Transform> enemyTanks)
     {
+        Debug.Log("strafing");
         var closestTank = redTank;
         var closestTankDistance = float.MaxValue;
 

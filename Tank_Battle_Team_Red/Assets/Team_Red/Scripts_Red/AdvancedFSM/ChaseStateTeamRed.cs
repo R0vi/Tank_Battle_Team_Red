@@ -32,7 +32,10 @@ public class ChaseStateTeamRed : FSMStateTeamRed
                 if(closestTankDistance <= 150)
                 {
                     //chase to attack
+                    Debug.Log("Switch to Attack State");
                     redTank.GetComponent<NPCTankControllerTeamRed>().SetTransition(Transition.ReachPlayer);
+                    redTank.gameObject.GetComponent<NavMeshAgent>().isStopped = true;
+                    redTank.gameObject.GetComponent<NavMeshAgent>().ResetPath();
                     break;
                 }
                 if(closestTankDistance > 300)

@@ -19,9 +19,30 @@ public class AttackStateTeamRed : FSMStateTeamRed
     {
         var npcTankController = redTank.gameObject.GetComponent<NPCTankControllerTeamRed>();
 
+        var closestTank = redTank;
+        var closestTankDistance = float.MaxValue;
+
+        foreach (var enemyTank in enemyTanks)
+        {
+            var distanceToEnemyTank = Vector3.Distance(redTank.position, enemyTank.position);
+            if (distanceToEnemyTank < closestTankDistance)
+            {
+                closestTank = enemyTank;
+                closestTankDistance = distanceToEnemyTank;
+            }
+            if (closestTankDistance > 150)
+            {
+                Debug.Log("Switch to Chase State");
+                redTank.GetComponent<NPCTankControllerTeamRed>().SetTransition(Transition.SawPlayer);
+                redTank.gameObject.GetComponent<NavMeshAgent>().isStopped = false;
+                break;
+            }
+        }
+
         if (platoonRedTanks.All(x => x.gameObject.GetComponent<NPCTankControllerTeamRed>().HasShotInAttackState))
         {
-            npcTankController.SetTransition(Transition.GoToStrafe);
+            //Debug.Log("Switch to Strafe State");
+            //npcTankController.SetTransition(Transition.GoToStrafe);
         }
 
         if (time == 0)
@@ -42,6 +63,8 @@ public class AttackStateTeamRed : FSMStateTeamRed
 
     public override void ActTeamRed(Transform redTank, IList<Transform> platoonRedTanks, IList<Transform> enemyTanks)
     {
+        Debug.Log("attacking");
+
         var closestTank = redTank;
         var closestTankDistance = float.MaxValue;
 

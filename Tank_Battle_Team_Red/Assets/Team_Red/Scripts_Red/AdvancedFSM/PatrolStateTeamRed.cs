@@ -43,8 +43,8 @@ public class PatrolStateTeamRed : FSMStateTeamRed
         destPos = redTank.position + directionVector;
 
         redTank.gameObject.GetComponent<NavMeshAgent>().SetDestination(destPos);
-
-        /*Debug.Log(destPos);*/
+        Debug.Log("stopped: " + redTank.gameObject.GetComponent<NavMeshAgent>().isStopped);
+        Debug.Log(destPos);
 
         //Rotate to the target point
         /*Quaternion targetRotation = Quaternion.LookRotation(destPos - redTank.position);
