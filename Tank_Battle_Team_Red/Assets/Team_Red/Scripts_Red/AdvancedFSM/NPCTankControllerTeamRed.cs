@@ -114,12 +114,16 @@ public class NPCTankControllerTeamRed : AdvancedFSMTeamRed
         var evade = new EvadeStateTeamRed();
         evade.AddTransitionTeamRed(Transition.LostPlayer, FSMStateIDTeamRed.Patrolling);
 
+        var flee = new FleeStateTeamRed();
+        flee.AddTransitionTeamRed(Transition.LostPlayer, FSMStateIDTeamRed.Patrolling);
+
         AddFSMStateTeamRed(patrol);
         AddFSMStateTeamRed(chase);
         AddFSMStateTeamRed(attack);
         AddFSMStateTeamRed(dead);
 		AddFSMStateTeamRed(strafe);
         AddFSMStateTeamRed(evade);
+        AddFSMStateTeamRed(flee);
     }
 
     /// <summary>
