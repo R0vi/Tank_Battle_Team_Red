@@ -15,13 +15,17 @@ public class DataTeamRed : ScriptableObject
 
     public bool Strafing = false;
 
-    public float radiusCohesion = 20;
-    public float radiusSeparation = 6;
-    public float radiusAlignment = 10;
-    public float weightCohesion = 60;
-    public float weightSeparation = 90;
-    public float weightAlignment = 90;
+    public float RadiusCohesion = 300;
+    public float RadiusSeparation = 56.3f;
+    public float RadiusAlignment = 26.9f;
+    public float WeightCohesion = 136.5f;
+    public float WeightSeparation = 113;
+    public float WeightAlignment = 62;
+    public float WeightWander = 66f;
 
-    public float TimeToCheckForDemage = 2;
-    public float MaxDemageInTime = 50;
+    public float TimeToCheckForDamage = 2;
+    public float MaxDamageInTime = 50;
+    public float LookAheadDistance = 5.35f;
+    public float WanderJitter = 3.1f;
+   
 }

@@ -3,9 +3,11 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.AI;
+using Random = UnityEngine.Random;
 
 public class PatrolStateTeamRed : FSMStateTeamRed
 {
+
     public PatrolStateTeamRed() : base()
     {
         stateIdTeamRed = FSMStateIDTeamRed.Patrolling;
@@ -36,15 +38,25 @@ public class PatrolStateTeamRed : FSMStateTeamRed
         }
     }
 
+    float RandomBinomial()
+    {
+        return Random.Range(0f, 1f) - Random.Range(0f, 1f);
+    }
+
     public override void ActTeamRed(Transform redTank, IList<Transform> platoonRedTanks, IList<Transform> enemyTanks)
     {
         var directionVector = Combine(redTank, platoonRedTanks);
 
-        destPos = redTank.position + directionVector;
+        destPos = redTank.position + directionVector.normalized * dataTeamRed.LookAheadDistance;
 
-        redTank.gameObject.GetComponent<NavMeshAgent>().SetDestination(destPos);
+        Debug.Log($"cohesion radius: {dataTeamRed.RadiusCohesion}");
+
+        /*redTank.gameObject.GetComponent<NavMeshAgent>().destination = destPos;*/
+
+        var succeeded = redTank.gameObject.GetComponent<NavMeshAgent>().SetDestination(destPos);
+
         Debug.Log("stopped: " + redTank.gameObject.GetComponent<NavMeshAgent>().isStopped);
-        Debug.Log(destPos);
+        Debug.Log($"{redTank.name} destPos: {destPos}, succeeded: {succeeded}");
 
         //Rotate to the target point
         /*Quaternion targetRotation = Quaternion.LookRotation(destPos - redTank.position);
@@ -52,6 +64,13 @@ public class PatrolStateTeamRed : FSMStateTeamRed
 
         //Go Forward
         redTank.Translate(Vector3.forward * Time.deltaTime * curSpeed);*/
+    }
+
+    Vector3 Wander()
+    {
+        var jitter = dataTeamRed.WanderJitter * Time.deltaTime;
+        
+        return new Vector3(RandomBinomial() * jitter, 0, RandomBinomial() * jitter);
     }
 
     Vector3 Cohesion(Transform curTank, IList<Transform> platoonTanks)
@@ -72,7 +91,7 @@ public class PatrolStateTeamRed : FSMStateTeamRed
 
             tankCounter++;
 
-            if (Vector3.Distance(tank.position, curTank.position) <= dataTeamRed.radiusCohesion)
+            if (Vector3.Distance(tank.position, curTank.position) <= dataTeamRed.RadiusCohesion)
             {
                 destPoint += tank.position;
             }
@@ -99,7 +118,7 @@ public class PatrolStateTeamRed : FSMStateTeamRed
                 continue;
             }
 
-            if (Vector3.Distance(tank.position, curTank.position) <= dataTeamRed.radiusSeparation)
+            if (Vector3.Distance(tank.position, curTank.position) <= dataTeamRed.RadiusSeparation)
             {
                 Vector3 inverseAgentDirection = curTank.position - tank.position;
 
@@ -125,7 +144,7 @@ public class PatrolStateTeamRed : FSMStateTeamRed
                 continue;
             }
 
-                if (Vector3.Distance(tank.position, curTank.position) <= dataTeamRed.radiusAlignment)
+                if (Vector3.Distance(tank.position, curTank.position) <= dataTeamRed.RadiusAlignment)
                 {
                     destPoint += tank.forward;
                 }
@@ -136,8 +155,9 @@ public class PatrolStateTeamRed : FSMStateTeamRed
 
     Vector3 Combine(Transform curTank, IList<Transform> platoonTanks)
     {
-        return dataTeamRed.weightCohesion * Cohesion(curTank, platoonTanks) +
-               dataTeamRed.weightSeparation * Separation(curTank, platoonTanks) +
-               dataTeamRed.weightAlignment * Alignment(curTank, platoonTanks);
+        return dataTeamRed.WeightCohesion * Cohesion(curTank, platoonTanks) +
+               dataTeamRed.WeightSeparation * Separation(curTank, platoonTanks) +
+               dataTeamRed.WeightAlignment * Alignment(curTank, platoonTanks) +
+                dataTeamRed.WeightWander * Wander();
     }
 }
