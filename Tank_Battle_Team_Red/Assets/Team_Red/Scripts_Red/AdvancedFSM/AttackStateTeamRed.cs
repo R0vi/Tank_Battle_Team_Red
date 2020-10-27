@@ -4,7 +4,10 @@ using System.Linq;
 
 public class AttackStateTeamRed : FSMStateTeamRed
 {
-    public AttackStateTeamRed() 
+    private float time = 0;
+    private float oldHealth;
+
+    public AttackStateTeamRed() : base()
     {
         stateIdTeamRed = FSMStateIDTeamRed.Attacking;
         curRotSpeed = 1.0f;
@@ -13,9 +16,26 @@ public class AttackStateTeamRed : FSMStateTeamRed
 
     public override void ReasonTeamRed(Transform redTank, IList<Transform> platoonRedTanks, IList<Transform> enemyTanks)
     {
+        var npcTankController = redTank.gameObject.GetComponent<NPCTankControllerTeamRed>();
+
         if (platoonRedTanks.All(x => x.gameObject.GetComponent<NPCTankControllerTeamRed>().HasShotInAttackState))
         {
-            redTank.GetComponent<NPCTankControllerTeamRed>().SetTransition(Transition.GoToStrafe);
+            npcTankController.SetTransition(Transition.GoToStrafe);
+        }
+        
+        if (time == 0)
+        {
+            time = Time.time;
+            oldHealth = npcTankController.GetHealth();
+        }
+        if (Time.time - time > dataTeamRed.TimeToCheckForDemage)
+        {
+            if (oldHealth - npcTankController.GetHealth() >= dataTeamRed.MaxDemageInTime)
+            {
+                npcTankController.SetTransition(Transition.GoToFlee);
+            }
+            time = Time.time;
+            oldHealth = npcTankController.GetHealth();
         }
     }
 

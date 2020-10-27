@@ -16,10 +16,17 @@ public class PatrolStateTeamRed : FSMStateTeamRed
 
     public override void ReasonTeamRed(Transform redTank, IList<Transform> platoonRedTanks, IList<Transform> enemyTanks)
     {
+        Debug.Log("In patrol");
         //Check the distance with player tank
         //When the distance is near, transition to chase state
         foreach (Transform enemyTank in enemyTanks)
         {
+            if(Vector3.Distance(redTank.position, enemyTank.position) <= 50.0f)
+            {
+                Debug.Log("Switch to Evade State");
+                redTank.GetComponent<NPCTankControllerTeamRed>().SetTransition(Transition.EnemyTooClose);
+                break;
+            }
             if (Vector3.Distance(redTank.position, enemyTank.position) <= 300.0f)
             {
                 Debug.Log("Switch to Chase State");
