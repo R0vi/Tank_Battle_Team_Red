@@ -8,6 +8,7 @@ public class NPCTankControllerTeamRed : AdvancedFSMTeamRed
     public GameObject Bullet;
     private int health;
     public bool HasShotInAttackState;
+	public bool HasFinishedStrafe;
 
     //Initialize the Finite state machine for the NPC tank
     protected override void InitializeTeamRed()
@@ -90,6 +91,7 @@ public class NPCTankControllerTeamRed : AdvancedFSMTeamRed
         var patrol = new PatrolStateTeamRed();
         patrol.AddTransitionTeamRed(Transition.SawPlayer, FSMStateIDTeamRed.Chasing);
         patrol.AddTransitionTeamRed(Transition.NoHealth, FSMStateIDTeamRed.Dead);
+        patrol.AddTransitionTeamRed(Transition.EnemyTooClose, FSMStateIDTeamRed.Evade);
 
         var chase = new ChaseStateTeamRed();
         chase.AddTransitionTeamRed(Transition.LostPlayer, FSMStateIDTeamRed.Patrolling);
@@ -105,10 +107,14 @@ public class NPCTankControllerTeamRed : AdvancedFSMTeamRed
         var dead = new DeadStateTeamRed();
         dead.AddTransitionTeamRed(Transition.NoHealth, FSMStateIDTeamRed.Dead);
 
+        var evade = new EvadeStateTeamRed();
+        evade.AddTransitionTeamRed(Transition.LostPlayer, FSMStateIDTeamRed.Patrolling);
+
         AddFSMStateTeamRed(patrol);
         AddFSMStateTeamRed(chase);
         AddFSMStateTeamRed(attack);
         AddFSMStateTeamRed(dead);
+        AddFSMStateTeamRed(evade);
     }
 
     /// <summary>
