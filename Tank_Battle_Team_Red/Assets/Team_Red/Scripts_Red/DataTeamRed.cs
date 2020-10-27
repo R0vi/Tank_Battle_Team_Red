@@ -21,4 +21,7 @@ public class DataTeamRed : ScriptableObject
     public float weightCohesion = 60;
     public float weightSeparation = 90;
     public float weightAlignment = 90;
+
+    public float TimeToCheckForDemage = 2;
+    public float MaxDemageInTime = 50;
 }

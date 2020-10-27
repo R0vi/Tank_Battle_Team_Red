@@ -103,6 +103,7 @@ public class NPCTankControllerTeamRed : AdvancedFSMTeamRed
         attack.AddTransitionTeamRed(Transition.GoToStrafe, FSMStateIDTeamRed.Strafing);
         attack.AddTransitionTeamRed(Transition.SawPlayer, FSMStateIDTeamRed.Chasing);
         attack.AddTransitionTeamRed(Transition.NoHealth, FSMStateIDTeamRed.Dead);
+        attack.AddTransitionTeamRed(Transition.GoToFlee, FSMStateIDTeamRed.Fleeing);
 
         var dead = new DeadStateTeamRed();
         dead.AddTransitionTeamRed(Transition.NoHealth, FSMStateIDTeamRed.Dead);

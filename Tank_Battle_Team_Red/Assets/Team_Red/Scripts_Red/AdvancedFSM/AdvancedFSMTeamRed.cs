@@ -19,6 +19,7 @@ public enum Transition
     NoHealth,
     EnemyTooClose,
     GoToStrafe,
+    GoToFlee,
 }
 
 public enum FSMStateIDTeamRed
