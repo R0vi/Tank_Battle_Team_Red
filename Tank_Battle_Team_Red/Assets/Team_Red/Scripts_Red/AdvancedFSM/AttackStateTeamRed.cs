@@ -61,9 +61,11 @@ public class AttackStateTeamRed : FSMStateTeamRed
             cumulativeEnemyPosition += enemyTank.position;
         }
 
-        destPos = cumulativeEnemyPosition / enemyTanks.Count;
+        /*destPos = cumulativeEnemyPosition / enemyTanks.Count;
 
-        redTank.gameObject.GetComponent<NavMeshAgent>().SetDestination(destPos);
+        Debug.Log($"destinationPosition {destPos}");
+
+        redTank.gameObject.GetComponent<NavMeshAgent>().SetDestination(destPos);*/
 
         var npcTankController = redTank.gameObject.GetComponent<NPCTankControllerTeamRed>();
 
