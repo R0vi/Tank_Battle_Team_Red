@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine.AI;
 
 public class ChaseStateTeamRed : FSMStateTeamRed
 {
@@ -79,11 +80,13 @@ public class ChaseStateTeamRed : FSMStateTeamRed
 
         destPos = closestTank.position;
 
-        //Rotate to the target point
-        Quaternion targetRotation = Quaternion.LookRotation(destPos - redTank.position);
-        redTank.rotation = Quaternion.Slerp(redTank.rotation, targetRotation, Time.deltaTime * curRotSpeed);
+        redTank.gameObject.GetComponent<NavMeshAgent>().SetDestination(destPos);
 
-        //Go Forward
-        redTank.Translate(Vector3.forward * Time.deltaTime * curSpeed);
+        ////Rotate to the target point
+        //Quaternion targetRotation = Quaternion.LookRotation(destPos - redTank.position);
+        //redTank.rotation = Quaternion.Slerp(redTank.rotation, targetRotation, Time.deltaTime * curRotSpeed);
+
+        ////Go Forward
+        //redTank.Translate(Vector3.forward * Time.deltaTime * curSpeed);
     }
 }
