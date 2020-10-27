@@ -27,11 +27,24 @@ public class ChaseStateTeamRed : FSMStateTeamRed
                 closestTank = enemyTank;
 
                 closestTankDistance = distanceToEnemyTank;
+                
+                if(closestTankDistance <= 150)
+                {
+                    //chase to attack
+                    redTank.GetComponent<NPCTankControllerTeamRed>().SetTransition(Transition.ReachPlayer);
+                    break;
+                }
+                if(closestTankDistance > 300)
+                {
+                    //chase to patrol
+                    redTank.GetComponent<NPCTankControllerTeamRed>().SetTransition(Transition.LostPlayer);
+                    break;
+                }
             }
         }
 
         //var closestTank = enemyTanks.Min(x => Vector3.Distance(redTank.position, x.position)
-        
+
         ////Set the target position as the player position
         //destPos = player.position;
 
