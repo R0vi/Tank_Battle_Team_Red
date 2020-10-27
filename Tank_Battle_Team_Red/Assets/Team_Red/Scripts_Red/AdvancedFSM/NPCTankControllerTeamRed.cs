@@ -105,11 +105,15 @@ public class NPCTankControllerTeamRed : AdvancedFSMTeamRed
 
         var dead = new DeadStateTeamRed();
         dead.AddTransitionTeamRed(Transition.NoHealth, FSMStateIDTeamRed.Dead);
+		
+		var strafe = new StrafeStateTeamRed();
+		strafe.AddTransitionTeamRed(Transition.ReachPlayer, FSMStateIDTeamRed.Attacking);
 
         AddFSMStateTeamRed(patrol);
         AddFSMStateTeamRed(chase);
         AddFSMStateTeamRed(attack);
         AddFSMStateTeamRed(dead);
+		AddFSMStateTeamRed(strafe);
     }
 
     /// <summary>

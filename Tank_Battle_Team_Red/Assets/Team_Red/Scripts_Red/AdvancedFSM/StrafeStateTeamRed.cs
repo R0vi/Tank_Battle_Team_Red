@@ -16,7 +16,7 @@ public class StrafeStateTeamRed : FSMStateTeamRed
     {
         if (platoonRedTanks.All(x => x.gameObject.GetComponent<NPCTankControllerTeamRed>().HasFinishedStrafe))
         {
-            //redTank.GetComponent<NPCTankControllerTeamRed>().SetTransition(Transition.GoToAttack);
+            redTank.GetComponent<NPCTankControllerTeamRed>().SetTransition(Transition.ReachPlayer);
         }
     }
 	/*
