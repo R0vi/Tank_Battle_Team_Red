@@ -12,3 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8506ae9646916474eb8274a8b1679da2, type: 3}
   m_Name: Data Team Red
   m_EditorClassIdentifier: 
+  EvadingRange: 50
+  ShootTimesDuringStrafing: 2
+  Strafing: 0
+  radiusCohesion: 20
+  radiusSeparation: 14.48
+  radiusAlignment: 10
+  weightCohesion: 60
+  weightSeparation: 90
+  weightAlignment: 90
