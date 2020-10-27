@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 public class AttackStateTeamRed : FSMStateTeamRed
 {
@@ -13,6 +14,11 @@ public class AttackStateTeamRed : FSMStateTeamRed
 
     public override void ReasonTeamRed(Transform redTank, IList<Transform> platoonRedTanks, IList<Transform> enemyTanks)
     {
+        if (platoonRedTanks.All(x => x.gameObject.GetComponent<NPCTankControllerTeamRed>().HasShotInAttackState))
+        {
+            redTank.GetComponent<NPCTankControllerTeamRed>().SetTransition(Transition.GoToStrafe);
+        }
+
         ////Check the distance with the player tank
         //float dist = Vector3.Distance(npc.position, player.position);
         //if (dist >= 200.0f && dist < 300.0f)
@@ -63,9 +69,13 @@ public class AttackStateTeamRed : FSMStateTeamRed
         var turret = npcTankController.turret;
 
        /*Transform turret = npc.GetComponent<NPCTankControllerTeamRed>().turret;*/
-        var turretRotation = Quaternion.LookRotation(destPos - turret.position);
+        var turretRotation = Quaternion.LookRotation(closestTank.position - turret.position);
         turret.rotation = Quaternion.Slerp(turret.rotation, turretRotation, Time.deltaTime * curRotSpeed);
 
-        npcTankController.ShootBullet();
+        if (Quaternion.Angle(turretRotation, turret.rotation) <= 20)
+        {
+            npcTankController.ShootBullet();
+            npcTankController.HasShotInAttackState = true;
+        } 
     }
 }

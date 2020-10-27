@@ -18,6 +18,7 @@ public enum Transition
     LostPlayer,
     NoHealth,
     EnemyTooClose,
+    GoToStrafe,
 }
 
 public enum FSMStateIDTeamRed
@@ -29,6 +30,7 @@ public enum FSMStateIDTeamRed
     Dead,
     Fleeing,
     Evade,
+    Strafing
 }
 
 public class AdvancedFSMTeamRed : FSMTeamRed 

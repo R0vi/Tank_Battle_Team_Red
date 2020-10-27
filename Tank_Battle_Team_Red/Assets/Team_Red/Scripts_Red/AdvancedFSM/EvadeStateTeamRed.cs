@@ -34,6 +34,7 @@ public class EvadeStateTeamRed : FSMStateTeamRed
             evadeRotation = Quaternion.LookRotation(redTank.right);
 
             redTank.rotation = Quaternion.Slerp(redTank.rotation, evadeRotation, Time.deltaTime * curRotSpeed);
+            Debug.Log($"Rotation {redTank.rotation}, {redTank.gameObject.name}");
             redTank.Translate(Vector3.forward * Time.deltaTime * curSpeed);
 
             float angle = Quaternion.Angle(evadeRotation, redTank.rotation);

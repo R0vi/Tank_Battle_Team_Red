@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
@@ -110,7 +111,7 @@ public class PatrolStateTeamRed : FSMStateTeamRed
     Vector3 Combine(Transform curTank, IList<Transform> platoonTanks)
     {
         return dataTeamRed.weightCohesion * Cohesion(curTank, platoonTanks) + 
-            dataTeamRed.weightSeparation * Separation(curTank, platoonTanks) + 
-            dataTeamRed.weightAlignment * Alignment(curTank, platoonTanks);
+               dataTeamRed.weightSeparation * Separation(curTank, platoonTanks) + 
+               dataTeamRed.weightAlignment * Alignment(curTank, platoonTanks);
     }
 }

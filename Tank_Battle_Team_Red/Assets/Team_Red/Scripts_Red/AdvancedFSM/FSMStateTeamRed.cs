@@ -28,7 +28,23 @@ public abstract class FSMStateTeamRed
 
     protected FSMStateTeamRed()
     {
-        dataTeamRed = Object.FindObjectOfType<DataTeamRed>();
+        dataTeamRed = GetDataTeamRed();
+
+        Debug.Log(dataTeamRed);
+    }
+
+    private static DataTeamRed GetDataTeamRed()
+    {
+        string[] guids = UnityEditor.AssetDatabase.FindAssets("t:Data Team Red");
+        if (guids.Length == 0)
+        {
+            return ScriptableObject.CreateInstance<DataTeamRed>();
+        }
+        else
+        {
+            var path = UnityEditor.AssetDatabase.GUIDToAssetPath(guids[0]);
+            return UnityEditor.AssetDatabase.LoadAssetAtPath<DataTeamRed>(path);
+        }
     }
 
     public void AddTransitionTeamRed(Transition transition, FSMStateIDTeamRed idTeamRed)
@@ -94,7 +110,7 @@ public abstract class FSMStateTeamRed
             return map[trans];
         }
 
-        Debug.LogError("FSMState ERROR: " + trans+ " Transition passed to the State was not on the list");
+        Debug.LogError("FSMState ERROR: " + trans + " Transition passed to the State was not on the list");
         return FSMStateIDTeamRed.None;
     }
 

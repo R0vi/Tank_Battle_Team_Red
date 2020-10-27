@@ -6,6 +6,7 @@ public class NPCTankControllerTeamRed : AdvancedFSMTeamRed
 {
     public GameObject Bullet;
     private int health;
+    public bool HasShotInAttackState;
 
     //Initialize the Finite state machine for the NPC tank
     protected override void InitializeTeamRed()
@@ -82,6 +83,7 @@ public class NPCTankControllerTeamRed : AdvancedFSMTeamRed
 
         var attack = new AttackStateTeamRed();
         attack.AddTransitionTeamRed(Transition.LostPlayer, FSMStateIDTeamRed.Patrolling);
+        attack.AddTransitionTeamRed(Transition.GoToStrafe, FSMStateIDTeamRed.Strafing);
         attack.AddTransitionTeamRed(Transition.SawPlayer, FSMStateIDTeamRed.Chasing);
         attack.AddTransitionTeamRed(Transition.NoHealth, FSMStateIDTeamRed.Dead);
 
@@ -141,5 +143,10 @@ public class NPCTankControllerTeamRed : AdvancedFSMTeamRed
             Instantiate(Bullet, bulletSpawnPoint.position, bulletSpawnPoint.rotation);
             elapsedTime = 0.0f;
         }
+    }
+
+    public int GetHealth()
+    {
+        return health;
     }
 }
