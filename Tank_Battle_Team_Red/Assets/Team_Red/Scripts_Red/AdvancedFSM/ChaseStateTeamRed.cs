@@ -53,13 +53,24 @@ public class ChaseStateTeamRed : FSMStateTeamRed
 
     public override void ActTeamRed(Transform redTank, IList<Transform> platoonRedTanks, IList<Transform> enemyTanks)
     {
-        ////Rotate to the target point
-        //destPos = player.position;
+        
+        Transform closestTank = redTank;
+        float closestDist = float.MaxValue;
+        foreach(var enemyTank in enemyTanks)
+        {
+            if(Vector3.Distance(redTank.position, enemyTank.position) < closestDist)
+            {
+                closestTank = enemyTank;
+            }
+        }
 
-        //Quaternion targetRotation = Quaternion.LookRotation(destPos - npc.position);
-        //npc.rotation = Quaternion.Slerp(npc.rotation, targetRotation, Time.deltaTime * curRotSpeed);
+        destPos = closestTank.position;
 
-        ////Go Forward
-        //npc.Translate(Vector3.forward * Time.deltaTime * curSpeed);
+        //Rotate to the target point
+        Quaternion targetRotation = Quaternion.LookRotation(destPos - redTank.position);
+        redTank.rotation = Quaternion.Slerp(redTank.rotation, targetRotation, Time.deltaTime * curRotSpeed);
+
+        //Go Forward
+        redTank.Translate(Vector3.forward * Time.deltaTime * curSpeed);
     }
 }
