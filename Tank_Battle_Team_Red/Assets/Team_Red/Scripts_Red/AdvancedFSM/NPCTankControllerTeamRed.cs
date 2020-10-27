@@ -8,6 +8,7 @@ public class NPCTankControllerTeamRed : AdvancedFSMTeamRed
     public GameObject Bullet;
     private int health;
     public bool HasShotInAttackState;
+	public bool HasFinishedStrafe;
 
     //Initialize the Finite state machine for the NPC tank
     protected override void InitializeTeamRed()
