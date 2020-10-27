@@ -13,6 +13,7 @@ public class FleeStateTeamRed : FSMStateTeamRed
 
     public override void ActTeamRed(Transform redTank, IList<Transform> platoonRedTanks, IList<Transform> enemyTanks)
     {
+        Debug.Log("Flee state active");
         var firstEnemyPosition = enemyTanks.First().position;
         redTank.LookAt(firstEnemyPosition);
         Quaternion.Slerp(redTank.rotation, Quaternion.Euler(0, 180, 0), 1 * Time.deltaTime);

@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 public class ChaseStateTeamRed : FSMStateTeamRed
 {
@@ -14,6 +15,36 @@ public class ChaseStateTeamRed : FSMStateTeamRed
 
     public override void ReasonTeamRed(Transform redTank, IList<Transform> platoonRedTanks, IList<Transform> enemyTanks)
     {
+        Transform closestTank = null;
+        float closestTankDistance = float.MaxValue;
+
+        foreach (var enemyTank in enemyTanks)
+        {
+            var distanceToEnemyTank = Vector3.Distance(redTank.position, enemyTank.position);
+
+            if (distanceToEnemyTank < closestTankDistance)
+            {
+                closestTank = enemyTank;
+
+                closestTankDistance = distanceToEnemyTank;
+                
+                if(closestTankDistance <= 150)
+                {
+                    //chase to attack
+                    redTank.GetComponent<NPCTankControllerTeamRed>().SetTransition(Transition.ReachPlayer);
+                    break;
+                }
+                if(closestTankDistance > 300)
+                {
+                    //chase to patrol
+                    redTank.GetComponent<NPCTankControllerTeamRed>().SetTransition(Transition.LostPlayer);
+                    break;
+                }
+            }
+        }
+
+        //var closestTank = enemyTanks.Min(x => Vector3.Distance(redTank.position, x.position)
+
         ////Set the target position as the player position
         //destPos = player.position;
 
