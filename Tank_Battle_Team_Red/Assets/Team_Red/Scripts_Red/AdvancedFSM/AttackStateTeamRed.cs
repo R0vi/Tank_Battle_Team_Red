@@ -21,6 +21,7 @@ public class AttackStateTeamRed : FSMStateTeamRed
 
         if (platoonRedTanks.All(x => x.gameObject.GetComponent<NPCTankControllerTeamRed>().HasShotInAttackState))
         {
+            redTank.GetComponent<NavMeshAgent>().isStopped = false;
             npcTankController.SetTransition(Transition.GoToStrafe);
         }
 
@@ -33,6 +34,7 @@ public class AttackStateTeamRed : FSMStateTeamRed
         {
             if (oldHealth - npcTankController.GetHealth() >= dataTeamRed.MaxDemageInTime)
             {
+                redTank.GetComponent<NavMeshAgent>().isStopped = false;
                 npcTankController.SetTransition(Transition.GoToFlee);
             }
             time = Time.time;
