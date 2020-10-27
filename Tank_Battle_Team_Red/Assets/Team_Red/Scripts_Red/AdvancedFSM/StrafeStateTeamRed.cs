@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine.AI;
 
 public class StrafeStateTeamRed : FSMStateTeamRed
 {
@@ -16,6 +17,7 @@ public class StrafeStateTeamRed : FSMStateTeamRed
     {
         if (platoonRedTanks.All(x => x.gameObject.GetComponent<NPCTankControllerTeamRed>().HasFinishedStrafe))
         {
+            redTank.GetComponent<NavMeshAgent>().isStopped = true;
             redTank.GetComponent<NPCTankControllerTeamRed>().SetTransition(Transition.ReachPlayer);
         }
     }

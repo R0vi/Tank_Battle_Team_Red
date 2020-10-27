@@ -54,6 +54,7 @@ public class AttackStateTeamRed : FSMStateTeamRed
         {
             if (oldHealth - npcTankController.GetHealth() >= dataTeamRed.MaxDemageInTime)
             {
+                redTank.GetComponent<NavMeshAgent>().isStopped = false;
                 npcTankController.SetTransition(Transition.GoToFlee);
             }
             time = Time.time;
