@@ -15,6 +15,11 @@ public class DataTeamRed : ScriptableObject
 
     public bool Strafing = false;
 
+    public float TurretRotationSpeed = 1.5f;
+    public float TankRotationSpeed = 2.0f;
+    public float MaxVelocity = 150f;
+    public float MaxVelocityOnLowHealth = 75f;
+
     public float RadiusCohesion = 300;
     public float RadiusSeparation = 56.3f;
     public float RadiusAlignment = 26.9f;

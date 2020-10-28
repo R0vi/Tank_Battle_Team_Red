@@ -92,7 +92,7 @@ public class AttackStateTeamRed : FSMStateTeamRed
         var turret = npcTankController.turret;
 
         var turretRotation = Quaternion.LookRotation(closestTank.position - turret.position);
-        turret.rotation = Quaternion.Slerp(turret.rotation, turretRotation, Time.deltaTime * curRotSpeed);
+        turret.rotation = Quaternion.Slerp(turret.rotation, turretRotation, Time.deltaTime * dataTeamRed.TurretRotationSpeed);
 
         if (Quaternion.Angle(turretRotation, turret.rotation) <= 20)
         {

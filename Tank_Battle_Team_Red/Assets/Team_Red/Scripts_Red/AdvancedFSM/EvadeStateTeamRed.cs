@@ -4,18 +4,17 @@ using UnityEngine;
 
 public class EvadeStateTeamRed : FSMStateTeamRed
 {
-    private bool evadeRight;
+    private bool firstRotationDone;
     private Quaternion evadeRotation;
     private bool isDone;
+    private bool isStarted;
+
     public EvadeStateTeamRed()
     {
         stateIdTeamRed = FSMStateIDTeamRed.Evade;
 
         curRotSpeed = 1.0f;
         curSpeed = 100.0f;
-
-        evadeRight = true;
-        isDone = false;
     }
 
     public override void ReasonTeamRed(Transform redTank, IList<Transform> platoonRedTanks, IList<Transform> enemyTanks)
@@ -23,43 +22,38 @@ public class EvadeStateTeamRed : FSMStateTeamRed
         if (isDone)
         {
             redTank.GetComponent<NPCTankControllerTeamRed>().SetTransition(Transition.LostPlayer);
+            firstRotationDone = false;
+            isDone = false;
+            isStarted = false;
         }
     }
 
     public override void ActTeamRed(Transform redTank, IList<Transform> platoonRedTanks, IList<Transform> enemyTanks)
     {
-        if (evadeRight)
+        if (!isStarted)
         {
-            Debug.Log("Right rotation");
-            evadeRotation = Quaternion.LookRotation(redTank.right);
-
-            redTank.rotation = Quaternion.Slerp(redTank.rotation, evadeRotation, Time.deltaTime * curRotSpeed);
-            Debug.Log($"Rotation {redTank.rotation}, {redTank.gameObject.name}");
-            redTank.Translate(Vector3.forward * Time.deltaTime * curSpeed);
-
-            float angle = Quaternion.Angle(evadeRotation, redTank.rotation);
-
-            if (angle <= 10f)
-            {
-                Debug.Log("Left rotation");
-                evadeRight = false;
-            }
+            // Initially rotate to the right
+            evadeRotation = evadeRotation = Quaternion.LookRotation(redTank.right);
+            isStarted = true;
         }
-        if (evadeRight == false)
+
+        redTank.rotation = Quaternion.Slerp(redTank.rotation, evadeRotation, Time.deltaTime * dataTeamRed.TankRotationSpeed);
+
+        redTank.Translate(Vector3.forward * Time.deltaTime * dataTeamRed.MaxVelocity);
+
+        var angleToDesiredRotation = Quaternion.Angle(evadeRotation, redTank.rotation);
+
+        if (angleToDesiredRotation <= 10f)
         {
-            evadeRotation = Quaternion.LookRotation(-redTank.right);
-
-            redTank.rotation = Quaternion.Slerp(redTank.rotation, evadeRotation, Time.deltaTime * curRotSpeed);
-
-            redTank.Translate(Vector3.forward * Time.deltaTime * curSpeed);
-
-            float angle = Quaternion.Angle(evadeRotation, redTank.rotation);
-
-            if(angle <= 10f)
+            if (firstRotationDone)
             {
                 isDone = true;
             }
+            else
+            {
+                evadeRotation = Quaternion.LookRotation(-redTank.right);
+                firstRotationDone = true;
+            }
         }
-
     }
 }
