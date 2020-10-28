@@ -15,12 +15,15 @@ MonoBehaviour:
   EvadingRange: 50
   ShootTimesDuringStrafing: 2
   Strafing: 0
-  radiusCohesion: 75
-  radiusSeparation: 75
-  radiusAlignment: 75
-  weightCohesion: 90
-  weightSeparation: 90
-  weightAlignment: 90
-  TimeToCheckForDemage: 2
-  MaxDemageInTime: 50
-  LookAheadDistance: 5
+  RadiusCohesion: 300
+  RadiusSeparation: 56.3
+  RadiusAlignment: 26.9
+  WeightCohesion: 136.5
+  WeightSeparation: 113.7
+  WeightAlignment: 62
+  WeightWander: 66.6
+  TimeToCheckForDamage: 2
+  MaxDamageInTime: 50
+  LookAheadDistance: 5.35
+  WanderJitter: 3.1
+  StrafeDistance: 3.07

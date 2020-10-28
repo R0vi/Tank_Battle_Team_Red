@@ -19,30 +19,24 @@ public class AttackStateTeamRed : FSMStateTeamRed
     {
         var npcTankController = redTank.gameObject.GetComponent<NPCTankControllerTeamRed>();
 
-        var closestTank = redTank;
-        var closestTankDistance = float.MaxValue;
-
         foreach (var enemyTank in enemyTanks)
         {
             var distanceToEnemyTank = Vector3.Distance(redTank.position, enemyTank.position);
-            if (distanceToEnemyTank < closestTankDistance)
-            {
-                closestTank = enemyTank;
-                closestTankDistance = distanceToEnemyTank;
-            }
-            if (closestTankDistance > 150)
+           
+            if (distanceToEnemyTank > DataTeamRed.AttackingRange)
             {
                 Debug.Log("Switch to Chase State");
                 redTank.GetComponent<NPCTankControllerTeamRed>().SetTransition(Transition.SawPlayer);
                 redTank.gameObject.GetComponent<NavMeshAgent>().isStopped = false;
-                break;
+                return;
             }
         }
 
         if (platoonRedTanks.All(x => x.gameObject.GetComponent<NPCTankControllerTeamRed>().HasShotInAttackState))
         {
-            //Debug.Log("Switch to Strafe State");
-            //npcTankController.SetTransition(Transition.GoToStrafe);
+            Debug.Log("Switch to Strafe State");
+            npcTankController.SetTransition(Transition.GoToStrafe);
+            return;
         }
 
         if (time == 0)
@@ -56,6 +50,7 @@ public class AttackStateTeamRed : FSMStateTeamRed
             {
                 redTank.GetComponent<NavMeshAgent>().isStopped = false;
                 npcTankController.SetTransition(Transition.GoToFlee);
+                return;
             }
             time = Time.time;
             oldHealth = npcTankController.GetHealth();

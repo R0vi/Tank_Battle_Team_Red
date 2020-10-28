@@ -51,19 +51,7 @@ public class PatrolStateTeamRed : FSMStateTeamRed
 
         Debug.Log($"cohesion radius: {dataTeamRed.RadiusCohesion}");
 
-        /*redTank.gameObject.GetComponent<NavMeshAgent>().destination = destPos;*/
-
         var succeeded = redTank.gameObject.GetComponent<NavMeshAgent>().SetDestination(destPos);
-
-        Debug.Log("stopped: " + redTank.gameObject.GetComponent<NavMeshAgent>().isStopped);
-        Debug.Log($"{redTank.name} destPos: {destPos}, succeeded: {succeeded}");
-
-        //Rotate to the target point
-        /*Quaternion targetRotation = Quaternion.LookRotation(destPos - redTank.position);
-        redTank.rotation = Quaternion.Slerp(redTank.rotation, targetRotation, Time.deltaTime * curRotSpeed);
-
-        //Go Forward
-        redTank.Translate(Vector3.forward * Time.deltaTime * curSpeed);*/
     }
 
     Vector3 Wander()

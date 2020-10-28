@@ -10,6 +10,7 @@ public class NPCTankControllerTeamRed : AdvancedFSMTeamRed
     public bool HasShotInAttackState;
 	public bool HasFinishedStrafe;
 
+
     //Initialize the Finite state machine for the NPC tank
     protected override void InitializeTeamRed()
     {
@@ -43,12 +44,8 @@ public class NPCTankControllerTeamRed : AdvancedFSMTeamRed
 
     private IList<Transform> GetPlatoonRedTanks()
     {
-        var platoonRedTanks = new List<Transform>();
-        foreach (var redTank in GameObject.FindGameObjectsWithTag("RedTank"))
-        {
-            platoonRedTanks.Add(redTank.GetComponent<Transform>());
-        }
-        return platoonRedTanks;
+        return GameObject.FindGameObjectsWithTag("RedTank")
+            .Select(redTank => redTank.GetComponent<Transform>()).ToList();
     }
 
     private IList<Transform> GetEnemyTanks(IList<Transform> platoonRedTanks)
@@ -110,6 +107,7 @@ public class NPCTankControllerTeamRed : AdvancedFSMTeamRed
 		
 		var strafe = new StrafeStateTeamRed();
 		strafe.AddTransitionTeamRed(Transition.ReachPlayer, FSMStateIDTeamRed.Attacking);
+        strafe.AddTransitionTeamRed(Transition.SawPlayer, FSMStateIDTeamRed.Chasing);
 
         var evade = new EvadeStateTeamRed();
         evade.AddTransitionTeamRed(Transition.LostPlayer, FSMStateIDTeamRed.Patrolling);

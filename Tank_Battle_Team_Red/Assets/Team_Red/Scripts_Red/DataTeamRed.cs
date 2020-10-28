@@ -27,5 +27,6 @@ public class DataTeamRed : ScriptableObject
     public float MaxDamageInTime = 50;
     public float LookAheadDistance = 5.35f;
     public float WanderJitter = 3.1f;
-   
+    public float StrafeDistance = 10;
+    public float StrafeDistanceErrorMargin = 2;
 }
