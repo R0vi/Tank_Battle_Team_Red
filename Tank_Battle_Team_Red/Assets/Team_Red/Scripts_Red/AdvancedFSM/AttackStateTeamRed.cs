@@ -19,6 +19,11 @@ public class AttackStateTeamRed : FSMStateTeamRed
     {
         var npcTankController = redTank.gameObject.GetComponent<NPCTankControllerTeamRed>();
 
+        if (!enemyTanks.Any())
+        {
+            redTank.GetComponent<NPCTankControllerTeamRed>().SetTransition(Transition.LostPlayer);
+        }
+
         foreach (var enemyTank in enemyTanks)
         {
             var distanceToEnemyTank = Vector3.Distance(redTank.position, enemyTank.position);
@@ -36,6 +41,7 @@ public class AttackStateTeamRed : FSMStateTeamRed
         {
             Debug.Log("Switch to Strafe State");
             npcTankController.SetTransition(Transition.GoToStrafe);
+            redTank.gameObject.GetComponent<NavMeshAgent>().isStopped = false;
             return;
         }
 
@@ -59,8 +65,6 @@ public class AttackStateTeamRed : FSMStateTeamRed
 
     public override void ActTeamRed(Transform redTank, IList<Transform> platoonRedTanks, IList<Transform> enemyTanks)
     {
-        Debug.Log("attacking");
-
         var closestTank = redTank;
         var closestTankDistance = float.MaxValue;
 
@@ -79,12 +83,6 @@ public class AttackStateTeamRed : FSMStateTeamRed
 
             cumulativeEnemyPosition += enemyTank.position;
         }
-
-        /*destPos = cumulativeEnemyPosition / enemyTanks.Count;
-
-        Debug.Log($"destinationPosition {destPos}");
-
-        redTank.gameObject.GetComponent<NavMeshAgent>().SetDestination(destPos);*/
 
         var npcTankController = redTank.gameObject.GetComponent<NPCTankControllerTeamRed>();
 

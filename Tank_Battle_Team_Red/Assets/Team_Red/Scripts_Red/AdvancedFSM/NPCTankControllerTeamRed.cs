@@ -31,6 +31,7 @@ public class NPCTankControllerTeamRed : AdvancedFSMTeamRed
     protected override void FSMUpdateTeamRed()
     {
         //Check for health
+        Debug.Log($"{gameObject.name} state: {CurrentStateTeamRed}");
         elapsedTime += Time.deltaTime;
     }
 

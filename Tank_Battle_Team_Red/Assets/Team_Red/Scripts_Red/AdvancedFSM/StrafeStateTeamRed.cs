@@ -16,9 +16,10 @@ public class StrafeStateTeamRed : FSMStateTeamRed
 
     public override void ReasonTeamRed(Transform redTank, IList<Transform> platoonRedTanks, IList<Transform> enemyTanks)
     {
-        if (platoonRedTanks.All(x => x.gameObject.GetComponent<NPCTankControllerTeamRed>().HasFinishedStrafe))
+        if (platoonRedTanks.Any(x => x.gameObject.GetComponent<NPCTankControllerTeamRed>().HasFinishedStrafe))
         {
             redTank.GetComponent<NavMeshAgent>().isStopped = true;
+            redTank.GetComponent<NavMeshAgent>().ResetPath();
             _started = false;
             _firstGoalMet = false;
 
@@ -45,6 +46,8 @@ public class StrafeStateTeamRed : FSMStateTeamRed
 
         if (Vector3.Distance(_goal, redTank.position) < dataTeamRed.StrafeDistanceErrorMargin)
         {
+            Debug.Log("rotation met");
+
             if (_firstGoalMet)
             {
                 npcTankController.HasFinishedStrafe = true;

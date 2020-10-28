@@ -15,6 +15,10 @@ MonoBehaviour:
   EvadingRange: 50
   ShootTimesDuringStrafing: 2
   Strafing: 0
+  TurretRotationSpeed: 1.5
+  TankRotationSpeed: 2
+  MaxVelocity: 150
+  MaxVelocityOnLowHealth: 75
   RadiusCohesion: 300
   RadiusSeparation: 56.3
   RadiusAlignment: 26.9
@@ -26,4 +30,5 @@ MonoBehaviour:
   MaxDamageInTime: 50
   LookAheadDistance: 5.35
   WanderJitter: 3.1
-  StrafeDistance: 3.07
+  StrafeDistance: 44.01
+  StrafeDistanceErrorMargin: 2.97
