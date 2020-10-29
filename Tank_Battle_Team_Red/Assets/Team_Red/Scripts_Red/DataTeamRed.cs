@@ -34,4 +34,9 @@ public class DataTeamRed : ScriptableObject
     public float WanderJitter = 3.1f;
     public float StrafeDistance = 10;
     public float StrafeDistanceErrorMargin = 2;
+
+    public float UseCommonDestinationForSeconds = 20f;
+    public float UseEmergentBehaviourForSeconds = 120f;
+    public float CommonDestinationRadius = 600f;
+    public Vector3? CommonDestination = null;
 }
