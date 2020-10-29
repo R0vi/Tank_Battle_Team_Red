@@ -33,10 +33,19 @@ public class FleeStateTeamRed : FSMStateTeamRed
     {
         var nearestEnemyTank = enemyTanks.Min(enemyTank => Vector3.Distance(enemyTank.position, redTank.position));
         var patrolDistance = 300f;
-        if(nearestEnemyTank > patrolDistance)
+        if (nearestEnemyTank > patrolDistance)
         {
             Debug.Log("Switch to Patrol State");
             redTank.GetComponent<NPCTankControllerTeamRed>().SetTransition(Transition.LostPlayer);
+        }
+        foreach (var enemyTank in enemyTanks)
+        {
+            if (Vector3.Distance(redTank.position, enemyTank.position) <= dataTeamRed.EvadingRange)
+            {
+                redTank.gameObject.GetComponent<NavMeshAgent>().isStopped = true;
+                redTank.GetComponent<NPCTankControllerTeamRed>().SetTransition(Transition.EnemyTooClose);
+                break;
+            }
         }
     }
 }

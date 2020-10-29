@@ -25,6 +25,15 @@ public class StrafeStateTeamRed : FSMStateTeamRed
 
             redTank.GetComponent<NPCTankControllerTeamRed>().SetTransition(Transition.ReachPlayer);
         }
+        foreach (var enemyTank in enemyTanks)
+        {
+            if (Vector3.Distance(redTank.position, enemyTank.position) <= dataTeamRed.EvadingRange)
+            {
+                redTank.gameObject.GetComponent<NavMeshAgent>().isStopped = true;
+                redTank.GetComponent<NPCTankControllerTeamRed>().SetTransition(Transition.EnemyTooClose);
+                break;
+            }
+        }
     }
 
     private bool _started = false;

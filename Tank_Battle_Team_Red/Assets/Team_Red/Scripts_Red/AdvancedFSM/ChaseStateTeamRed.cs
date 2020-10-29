@@ -41,6 +41,12 @@ public class ChaseStateTeamRed : FSMStateTeamRed
                     break;
                 }
             }
+            if (Vector3.Distance(redTank.position, enemyTank.position) <= dataTeamRed.EvadingRange)
+            {
+                redTank.gameObject.GetComponent<NavMeshAgent>().isStopped = true;
+                redTank.GetComponent<NPCTankControllerTeamRed>().SetTransition(Transition.EnemyTooClose);
+                break;
+            }
         }
     }
     

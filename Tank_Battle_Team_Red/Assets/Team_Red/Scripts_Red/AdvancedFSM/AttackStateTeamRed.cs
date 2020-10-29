@@ -35,6 +35,12 @@ public class AttackStateTeamRed : FSMStateTeamRed
                 redTank.gameObject.GetComponent<NavMeshAgent>().isStopped = false;
                 return;
             }
+            if (Vector3.Distance(redTank.position, enemyTank.position) <= dataTeamRed.EvadingRange)
+            {
+                redTank.gameObject.GetComponent<NavMeshAgent>().isStopped = true;
+                redTank.GetComponent<NPCTankControllerTeamRed>().SetTransition(Transition.EnemyTooClose);
+                break;
+            }
         }
 
         if (platoonRedTanks.All(x => x.gameObject.GetComponent<NPCTankControllerTeamRed>().HasShotInAttackState))

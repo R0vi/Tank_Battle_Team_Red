@@ -95,6 +95,7 @@ public class NPCTankControllerTeamRed : AdvancedFSMTeamRed
         chase.AddTransitionTeamRed(Transition.LostPlayer, FSMStateIDTeamRed.Patrolling);
         chase.AddTransitionTeamRed(Transition.ReachPlayer, FSMStateIDTeamRed.Attacking);
         chase.AddTransitionTeamRed(Transition.NoHealth, FSMStateIDTeamRed.Dead);
+        chase.AddTransitionTeamRed(Transition.EnemyTooClose, FSMStateIDTeamRed.Evade);
 
         var attack = new AttackStateTeamRed();
         attack.AddTransitionTeamRed(Transition.LostPlayer, FSMStateIDTeamRed.Patrolling);
@@ -102,6 +103,7 @@ public class NPCTankControllerTeamRed : AdvancedFSMTeamRed
         attack.AddTransitionTeamRed(Transition.SawPlayer, FSMStateIDTeamRed.Chasing);
         attack.AddTransitionTeamRed(Transition.NoHealth, FSMStateIDTeamRed.Dead);
         attack.AddTransitionTeamRed(Transition.GoToFlee, FSMStateIDTeamRed.Fleeing);
+        attack.AddTransitionTeamRed(Transition.EnemyTooClose, FSMStateIDTeamRed.Evade);
 
         var dead = new DeadStateTeamRed();
         dead.AddTransitionTeamRed(Transition.NoHealth, FSMStateIDTeamRed.Dead);
@@ -109,12 +111,14 @@ public class NPCTankControllerTeamRed : AdvancedFSMTeamRed
 		var strafe = new StrafeStateTeamRed();
 		strafe.AddTransitionTeamRed(Transition.ReachPlayer, FSMStateIDTeamRed.Attacking);
         strafe.AddTransitionTeamRed(Transition.SawPlayer, FSMStateIDTeamRed.Chasing);
+        strafe.AddTransitionTeamRed(Transition.EnemyTooClose, FSMStateIDTeamRed.Evade);
 
         var evade = new EvadeStateTeamRed();
         evade.AddTransitionTeamRed(Transition.LostPlayer, FSMStateIDTeamRed.Patrolling);
 
         var flee = new FleeStateTeamRed();
         flee.AddTransitionTeamRed(Transition.LostPlayer, FSMStateIDTeamRed.Patrolling);
+        flee.AddTransitionTeamRed(Transition.EnemyTooClose, FSMStateIDTeamRed.Evade);
 
         AddFSMStateTeamRed(patrol);
         AddFSMStateTeamRed(chase);

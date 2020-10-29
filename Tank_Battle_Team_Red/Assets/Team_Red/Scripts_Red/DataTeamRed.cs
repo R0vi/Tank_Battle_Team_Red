@@ -7,7 +7,7 @@ public class DataTeamRed : ScriptableObject
 
     public const float AttackingRange = 150;
 
-    public float EvadingRange = 50;
+    public float EvadingRange = 100;
 
     public const float MaximumSlopeAngle = 45;
 
@@ -19,6 +19,7 @@ public class DataTeamRed : ScriptableObject
     public float TankRotationSpeed = 2.0f;
     public float MaxVelocity = 150f;
     public float MaxVelocityOnLowHealth = 75f;
+    public float MaxEvadeVelocity = 50f;
 
     public float RadiusCohesion = 300;
     public float RadiusSeparation = 56.3f;

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class EvadeStateTeamRed : FSMStateTeamRed
 {
@@ -39,11 +40,11 @@ public class EvadeStateTeamRed : FSMStateTeamRed
 
         redTank.rotation = Quaternion.Slerp(redTank.rotation, evadeRotation, Time.deltaTime * dataTeamRed.TankRotationSpeed);
 
-        redTank.Translate(Vector3.forward * Time.deltaTime * dataTeamRed.MaxVelocity);
+        redTank.Translate(Vector3.forward * Time.deltaTime * dataTeamRed.MaxEvadeVelocity);
 
         var angleToDesiredRotation = Quaternion.Angle(evadeRotation, redTank.rotation);
 
-        if (angleToDesiredRotation <= 10f)
+        if (angleToDesiredRotation <= 20f)
         {
             if (firstRotationDone)
             {
